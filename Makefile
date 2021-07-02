@@ -20,7 +20,6 @@ SRC_FILE += main.c
 SRC_FILE += elfx32.c
 SRC_FILE += elfx64.c
 SRC_FILE += sym_list.c
-SRC_FILE += print_tools.c
 SRC_FILE += flags.c
 SRC_FILE += errors.c
 SRC_FILE += dev.c
