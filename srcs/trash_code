@@ -1,0 +1,146 @@
+
+	 /* Besoind de ca ?
+ *    if(elf.ehdr->e_shstrndx == SHN_UNDEF)
+ *    {
+ *        printf("[%d]   ", elf.ehdr->e_shstrndx);
+ *        printf("SHUN_UNDEF\n\n"); // gestion erreur ?
+ *    }
+ *    elf.strtable = elf.file + elf.shdr[elf.ehdr->e_shstrndx].sh_offset; //shstrtable
+ *
+ */
+	//print_section(&elf); //dev
+	
+	/*
+	 *if ((shdr_num = find_symtab(&elf)) == ERROR)
+	 */
+
+
+	 // find_symlink(&elf, shdr_num);
+
+
+void	find_symlink(t_elfH *e, int shdr_num)
+{
+	int			sym_num;
+	int			j;
+	char		*sym_strtable;
+	t_symbol	sym;
+	t_symbol	*lst = NULL;
+
+	j = 0;
+	sym_num = e->shdr[shdr_num].sh_size / e->shdr[shdr_num].sh_entsize;
+	sym_strtable = e->file + e->shdr[e->shdr[shdr_num].sh_link].sh_offset;
+	 for (int i = 0; i < sym_num; i++)
+	 {
+		 if (e->sym[i].st_name != 0
+			&& ELF64_ST_TYPE(e->sym[i].st_info) != STT_FILE
+			&& ELF64_ST_TYPE(e->sym[i].st_info) != STT_SECTION)
+		 {
+			sym.type = ELF64_ST_TYPE(e->sym[i].st_info);
+			sym.bind = ELF64_ST_BIND(e->sym[i].st_info);
+			sym.name = sym_strtable + e->sym[i].st_name;
+			sym.shndx = e->sym[i].st_shndx;
+			sym.value = e->sym[i].st_value;
+			create_lst_symbol(&lst, &sym);
+		 }
+	 }
+
+//	printf("[SYMTAB] = %p | [SYM_STRTABLE] = %p\n", e->sym, sym_strtable);
+//	printf("nombre de symbols = [%d]\n", sym_num);
+//	printf("SHN_ABS = [%d]\tSHN_UNDEF = [%d]\n", SHN_ABS, SHN_UNDEF);
+}
+
+
+
+
+
+/*
+ *Elf64_Shdr *elf_sheader(Elf64_Ehdr *hdr) 
+ *{
+ *    return (Elf64_Shdr *)((int)hdr + hdr->e_shoff);
+ *}
+ *
+ *Elf64_Shdr *elf_section(Elf64_Ehdr *hdr, int idx)
+ *{
+ *    return &elf_sheader(hdr)[idx];
+ *}
+ *
+ */
+
+/*
+ *void	print_sym_struct(t_symbol sym)
+ *{
+ *	printf("----\t[sym struct]\n");
+ *	printf("st_name = [%s]\n", sym.name);
+ *	printf("st_info = [%c]\n", sym.type);
+ *	printf("st_info = [%c]\n", sym.bind);
+ *	printf("st_shndx = [%d]\n", sym.shndx);
+ *	printf("st_shndx = [%d]\n", sym.value);
+ *}
+ */
+
+/*
+ *void	print_hex(uintmax_t addr, size_t base, size_t len)
+ *{
+ *    char		value;
+ *    char		hex[16] = "0123456789abcdef";
+ *
+ *    if (len < 1)
+ *        return ;
+ *    print_hex(addr / base, base, len - 1);
+ *    value = hex[(addr % base)];
+ *    write(1, &value, 1);
+ *}
+ *
+ */
+
+/*
+ *void	give_hex_value(uintmax_t addr, char *buf, size_t len)
+ *{
+ *     char		hex[16] = "0123456789abcdef";
+ *
+ *     if (len < 1)
+ *         return ;
+ *    give_hex_value(addr / 16, buf, len - 1);
+ *    buf[len - 1] = hex[(addr % 16)];
+ *}
+ */
+
+/*
+ *char	get_flag(t_elf *e, t_symbol sym)
+ *{
+ *    uint8_t		weak = sym.bind == STB_WEAK ? 1 : 0;
+ *    uint8_t		undefined = sym.shndx == SHN_UNDEF ? 1 : 0;
+ *    uint8_t		local = sym.bind == STB_LOCAL ? 1 : 0;
+ *
+ *    if (weak)
+ *    {
+ *        if (sym.type == STT_OBJECT)
+ *            return (undefined ? 'v' : 'V');
+ *        return (undefined ? 'w' : 'W');
+ *    }
+ *    if (sym.bind == STB_GNU_UNIQUE )
+ *        return (undefined ? 'u' : 'U');
+ *    if (undefined)
+ *        return (sym.bind == STB_LOCAL ? 'u' : 'U');
+ *    if (e->shdr[sym.shndx].sh_type == SHT_NOBITS
+ *            && e->shdr[sym.shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
+ *        return (local ? 'b' : 'B');
+ *    if ((e->shdr[sym.shndx].sh_type == SHT_PROGBITS
+ *            && e->shdr[sym.shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
+ *        || e->shdr[sym.shndx].sh_type == SHT_DYNAMIC)
+ *        return (local ? 'd' : 'D');
+ *    if (e->shdr[sym.shndx].sh_type == SHT_NOBITS
+ *            && e->shdr[sym.shndx].sh_flags == (SHF_ALLOC | SHF_EXECINSTR))
+ *        return (local ? 't' : 'T');
+ *    if (sym.type == STT_FUNC)
+ *        return (local ? 't' : 'T');
+ *    if (sym.shndx == SHN_COMMON)
+ *        return (undefined ? 'c' : 'C');
+ *    if (sym.shndx > e->ehdr->e_shnum || sym.shndx == SHN_ABS) // si == sHN_ABS => symbol value absolu
+ *        return (local ? 'a' : 'A');
+ *    return ('?');
+ *}
+ *
+ */
+
+
