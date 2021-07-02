@@ -45,7 +45,7 @@ static uint8_t		is_sort(char *s1, char *s2, uint64_t v1, uint64_t v2)
 	if (!*s1 && *s2)
 		return (1);
 	if (!*s1 && !*s2)
-		if (v1 < v2)
+		if (v1 <= v2)
 			return (1);
 	return (0);
 }

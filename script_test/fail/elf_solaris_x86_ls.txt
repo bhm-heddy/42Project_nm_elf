@@ -1,0 +1,62 @@
+1,4d0
+< 08063660 t .LFB3
+< 08063810 t .LFB3
+< 08063a20 t .LFB3
+< 08063b60 t .LFB3
+90d85
+< 08069320 V environ
+91a87
+> 08069320 V environ
+101,102d96
+<          U exit@@SYSVABI_1.3
+<          U _exit@@SYSVABI_1.3
+104a99,100
+>          U _exit@@SYSVABI_1.3
+>          U exit@@SYSVABI_1.3
+141d136
+< 08049760 U free@@SYSVABI_1.3
+142a138
+>          U free@@SYSVABI_1.3
+159d154
+< 08049710 w _get_exit_frame_monitor@@SUNWprivate_1.1
+160a156
+>          w _get_exit_frame_monitor@@SUNWprivate_1.1
+238a235,238
+> 08063660 t .LFB3
+> 08063810 t .LFB3
+> 08063a20 t .LFB3
+> 08063b60 t .LFB3
+242d241
+<          U localtime@@SYSVABI_1.3
+244c243,244
+< 080496a0 U localtime_r@@SUNW_0.7
+---
+>          U localtime_r@@SUNW_0.7
+>          U localtime@@SYSVABI_1.3
+252d251
+<          U __major@@SUNW_0.7
+254c253,254
+< 08049520 U malloc@@SYSVABI_1.3
+---
+>          U __major@@SUNW_0.7
+>          U malloc@@SYSVABI_1.3
+268d267
+<          U __minor@@SUNW_0.7
+269a269
+>          U __minor@@SUNW_0.7
+307d306
+<          U printf@@SYSVABI_1.3
+312a312
+>          U printf@@SYSVABI_1.3
+433d432
+<          U strcmp@@SYSVABI_1.3
+445a445
+>          U strcmp@@SYSVABI_1.3
+450d449
+<          U strftime@@SYSVABI_1.3
+451a451
+>          U strftime@@SYSVABI_1.3
+471d470
+< 08069480 V tzname@@SYSVABI_1.3
+472a472
+> 08069480 V tzname@@SYSVABI_1.3
