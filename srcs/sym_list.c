@@ -27,9 +27,9 @@ static uint8_t		is_sort(char *s1, char *s2, uint64_t v1, uint64_t v2)
 		return (1);
 	while (*s1 && *s2)
 	{
-		while (*s1 == '_')
+		while (*s1 == '_'  || *s1 == '.')
 			s1++;
-		while (*s2 == '_')
+		while (*s2 == '_' || *s2 == '.')
 			s2++;
 		c1 = is_lower(*s1) ? *s1 : *s1 + 32;
 		c2 = is_lower(*s2) ? *s2 : *s2 + 32;
