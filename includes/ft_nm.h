@@ -23,7 +23,7 @@
 # define BIG_E		0
 # define LITTLE_E	1
 
-# define GF_SIZE	11
+# define GF_SIZE	12
 # define LF_SIZE	20
 
 

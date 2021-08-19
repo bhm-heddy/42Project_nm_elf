@@ -1,19 +1,25 @@
 #!/bin/bash
 
+IFS=':' read -r -a path_bin <<< "$PATH"
 
-DIR=script_test
-FAIL=$DIR/fail
-
-
-mkdir -p $DIR
-mkdir -p $FAIL
-for param in $@
+for elem in "${path_bin[@]}"
 do
-	./my_nm $param 2>&1 > $DIR/my_$param.txt
-	nm $param 2>&1 > $DIR/nm_$param.txt
-	diff $DIR/my_$param.txt $DIR/nm_$param.txt >$DIR/ret.txt
-	if [ $? -ne 0 ]; then
-		mv $DIR/ret.txt $FAIL/$param.txt
-		echo "FAIL -> [$param]"
-	fi
+	list_bin=( $(ls -1 $elem) )
+	for bin in "${list_bin[@]}"
+	do
+
+		echo $elem/$bin
+		readelf -h $elem/$bin >&- 2>&-
+		if [ $? -eq 0 ]; then
+			nm $elem/$bin > a
+			./my_nm $elem/$bin > b
+			diff -q a b 
+			if [ $? -eq 1 ]; then
+				echo "Error : $elem/$bin"
+				exit 1
+			fi
+		echo Ok!
+		fi
+	done
 done
+

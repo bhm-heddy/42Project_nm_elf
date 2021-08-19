@@ -5,17 +5,16 @@
 //		debug(&e->e64, sym);
 //		debug2(&e->e64, sym);
 
-// void	debug(t_elf64 *e, t_symbol *sym)
-// {
-//     printf("[%s] \n", sym->name);
-//     printf("[%d]\n", SHT_FINI_ARRAY);
-//     printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
-//             e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
+ void	debug(t_elf64 *e, t_symbol *sym)
+ {
+     printf("[%s] \n", sym->name);
+     printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
+             e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
 //     exit(1);
-// }
- 
-/*
- *void	debug2(t_elf64 *e, t_symbol *sym)
+ }
+
+
+ /*void	debug2(t_elf64 *e, t_symbol *sym)
  *{
  *    if (sym->type == 1 && e->shdr[sym->shndx].sh_type == 1 && e->shdr[sym->shndx].sh_flags == 2)
  *    {
@@ -51,6 +50,7 @@ static t_flags		localflags[] = {
 };
 
 static t_flags		globalflags[] = {
+  { STT_NOTYPE, SHT_NULL, 0, 'U' },
   { STT_NOTYPE, SHT_PROGBITS, 3, 'D' },
   { STT_NOTYPE, SHT_PROGBITS, 6, 'T' },
   { STT_NOTYPE, SHT_NOBITS, 3, 'B' },
@@ -105,12 +105,17 @@ char	global_flag64(t_elfH *e, t_symbol *sym)
 {
     Elf64_Shdr *sh = e->e64.shdr;
 
+//	if (strcmp(sym->name, "free") == 0)
+//		debug(&e->e64, sym);
+
 	for (int i = 0; i < GF_SIZE; i++)
 	{
 		if (sym->type == globalflags[i].stt)
 			if(sh[sym->shndx].sh_type == globalflags[i].sh_type)
 				if(sh[sym->shndx].sh_flags == globalflags[i].sh_flags)
+				{
 					return (globalflags[i].type);
+				}
 	}
 	return ('?');
 }
@@ -142,6 +147,7 @@ char	get_flag(t_elfH *e, t_symbol sym, char (*pt[])(t_elfH *e, t_symbol *sym))
     uint8_t		weak = sym.bind == STB_WEAK ? 1 : 0;
     uint8_t		undefined = sym.shndx == SHN_UNDEF ? 1 : 0;
     uint8_t		local = sym.bind == STB_LOCAL ? 1 : 0;
+
 
 	if (!local)
 		if ((flag = c_flag(&sym)) != NO_TYPE)

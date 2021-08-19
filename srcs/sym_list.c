@@ -1,13 +1,6 @@
 #include <stdlib.h>
 #include "ft_nm.h"
 
-static char		*first_char(char *s) //useless now
-{
-	while (*s == '_')
-		s++;
-	return (s);
-}
-
 static uint8_t		is_lower(char c)
 {
 	if (c >= 'A' && c <= 'Z')
@@ -16,6 +9,18 @@ static uint8_t		is_lower(char c)
 		return (1);
 }
 
+static uint8_t		is_not_alphanum(char *s)
+{
+	if (!*s)
+		return (0);
+	if ((*s >= 'a' && *s <= 'z')
+			|| (*s >= 'A' && *s <= 'Z')
+			|| (*s >= '0' && *s <= '9'))
+	{
+		return (0);
+	}
+	return (1);
+}
 static uint8_t		is_sort(char *s1, char *s2, uint64_t v1, uint64_t v2)
 {
 	char 	c1;
@@ -27,9 +32,9 @@ static uint8_t		is_sort(char *s1, char *s2, uint64_t v1, uint64_t v2)
 		return (1);
 	while (*s1 && *s2)
 	{
-		while (*s1 == '_'  || *s1 == '.')
+		while (is_not_alphanum(s1))
 			s1++;
-		while (*s2 == '_' || *s2 == '.')
+		while (is_not_alphanum(s2))
 			s2++;
 		c1 = is_lower(*s1) ? *s1 : *s1 + 32;
 		c2 = is_lower(*s2) ? *s2 : *s2 + 32;
