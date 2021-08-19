@@ -5,15 +5,15 @@
 //		debug(&e->e64, sym);
 //		debug2(&e->e64, sym);
 
-/*
- *void	debug(t_elf64 *e, t_symbol *sym)
- *{
- *    printf("ici \n");
- *    printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
- *            e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
- *    exit(1);
- *}
- */
+// void	debug(t_elf64 *e, t_symbol *sym)
+// {
+//     printf("[%s] \n", sym->name);
+//     printf("[%d]\n", SHT_FINI_ARRAY);
+//     printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
+//             e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
+//     exit(1);
+// }
+ 
 /*
  *void	debug2(t_elf64 *e, t_symbol *sym)
  *{
@@ -37,8 +37,8 @@ static t_flags		localflags[] = {
   { STT_NOTYPE, SHT_NOBITS, 3, 'b' },
   { STT_OBJECT, SHT_DYNAMIC, 3, 'd' },
   { STT_OBJECT, SHT_NOTE, 2, 'r' },
-  { STT_OBJECT, SHT_FINI_ARRAY, 3, 'd' },
-  { STT_OBJECT, SHT_INIT_ARRAY, 3, 'd' },
+  { STT_OBJECT, SHT_FINI_ARRAY, 3, 't' },
+  { STT_OBJECT, SHT_INIT_ARRAY, 3, 't' },
   { STT_OBJECT, SHT_PROGBITS, 0, 'n' },
   { STT_OBJECT, SHT_PROGBITS, 2, 'r' },
   { STT_OBJECT, SHT_PROGBITS, 50, 'r' },
