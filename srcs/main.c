@@ -47,6 +47,7 @@ void	*init_nm(char *path, struct stat *buf)
 	int8_t	error;
 	
 	error = SUCCESS;
+	g_my_errno = 0;
 	if ((fd = open(path, O_RDONLY)) == ERROR)
 	{
 		fprintf(stderr, "%s: can't open file: %s\n", NAME, path);
@@ -114,16 +115,22 @@ void	print_symlink(t_elfH *e, t_symbol *lst, char (*pt[])(t_elfH *e, t_symbol *s
 
 int8_t	init_elf(t_elfH *elf, char *name_file)
 {
+	if (check_offset(elf->file, elf->end))
+		return (error_corrupted_file(name_file));
 	if (is_xbit(elf) == 32)
 	{
 		elf->e32.ehdr = elf->file;
 		elf->e32.shdr = elf->file + elf->e32.ehdr->e_shoff;
+		if (check_offset(elf->e32.shdr, elf->end))
+			return (error_corrupted_file(name_file));
 		elf->sh_index = find_symtab32(elf->file, &elf->e32);
 	}
 	else
 	{
 		elf->e64.ehdr = elf->file;
 		elf->e64.shdr = elf->file + elf->e64.ehdr->e_shoff;
+		if (check_offset(elf->e64.shdr, elf->end))
+			return (error_corrupted_file(name_file));
 		elf->sh_index = find_symtab64(elf->file, &elf->e64);
 	}
 	if (elf->sh_index == ERROR)
@@ -146,10 +153,11 @@ int		ft_nm(char *name_file)
 
 	if ((elf.file = init_nm(name_file, &buf)) == NULL)
 		return (ERROR);
+	elf.end = elf.file + buf.st_size;
 	if (is_not_elf(elf.file, name_file))
 		return (ERROR);
 	if (init_elf(&elf, name_file) == ERROR)
-	   return (0);// no sym == ret = 0
+	   return (g_my_errno);// no sym == ret = 0
 	if (elf.xbit == 64)
 	{
 		 lst = find_symlink64(&elf, &elf.e64); //go free ici

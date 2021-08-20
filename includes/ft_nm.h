@@ -26,6 +26,7 @@
 # define GF_SIZE	12
 # define LF_SIZE	20
 
+int g_my_errno;
 
 typedef	struct	s_elf32
 {
@@ -44,6 +45,7 @@ typedef	struct	s_elf64
 typedef struct	s_elfH
 {
 	void *file;
+	void *end;
     void *strtable;
 	t_elf32		e32;
 	t_elf64		e64;
@@ -102,6 +104,8 @@ void		clean_lst_symbol(t_symbol **begin);
 
 
 int		error_no_symbol(char *name_file);
+int		error_corrupted_file(char *name_file);
+int		check_offset(void *ptr, void *end);
 
 
 

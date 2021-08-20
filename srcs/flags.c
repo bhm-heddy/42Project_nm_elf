@@ -5,14 +5,16 @@
 //		debug(&e->e64, sym);
 //		debug2(&e->e64, sym);
 
- void	debug(t_elf64 *e, t_symbol *sym)
- {
-     printf("[%s] \n", sym->name);
-     printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
-             e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
-//     exit(1);
- }
-
+/*
+ * void	debug(t_elf64 *e, t_symbol *sym)
+ * {
+ *     printf("[%s] \n", sym->name);
+ *     printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
+ *             e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
+ *     exit(1);
+ * }
+ *
+ */
 
  /*void	debug2(t_elf64 *e, t_symbol *sym)
  *{
