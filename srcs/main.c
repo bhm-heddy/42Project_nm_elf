@@ -99,13 +99,15 @@ int		is_not_elf(Elf64_Ehdr *elf, char *name_file)
 
 void	print_symlink(t_elfH *e, t_symbol *lst, char (*pt[])(t_elfH *e, t_symbol *sym), uint8_t field_value)
 {
+	char flag;
 
 	while (lst)
 	{
-		if (lst->value)
-			printf("%0*lx %c %s\n", field_value, lst->value, get_flag(e, *lst, pt), lst->name);
+		flag = get_flag(e, *lst, pt);
+		if (lst->value && flag != 'U')
+			printf("%0*lx %c %s\n", field_value, lst->value, flag, lst->name);
 		else
-			printf("%*c %c %s\n", field_value, ' ', get_flag(e, *lst, pt), lst->name);
+			printf("%*c %c %s\n", field_value, ' ', flag, lst->name);
 		lst = lst->next;
 	}
 }

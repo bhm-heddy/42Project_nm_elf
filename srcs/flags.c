@@ -173,5 +173,3 @@ char	get_flag(t_elfH *e, t_symbol sym, char (*pt[])(t_elfH *e, t_symbol *sym))
 		return (local ? 'a' : 'A');
 	return ('?');
 }
-
-
