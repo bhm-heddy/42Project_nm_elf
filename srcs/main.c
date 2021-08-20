@@ -104,7 +104,7 @@ void	print_symlink(t_elfH *e, t_symbol *lst, char (*pt[])(t_elfH *e, t_symbol *s
 	while (lst)
 	{
 		flag = get_flag(e, *lst, pt);
-		if (lst->value && flag != 'U')
+		if (lst->value && flag != 'U' && flag != 'W' && flag != 'w')
 			printf("%0*lx %c %s\n", field_value, lst->value, flag, lst->name);
 		else
 			printf("%*c %c %s\n", field_value, ' ', flag, lst->name);
