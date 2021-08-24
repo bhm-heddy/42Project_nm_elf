@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-path_g="elf/good"
+path_g="ex_elf/good_files/"
 
 good=( $(ls -1 $path_g) )
 
@@ -24,7 +24,8 @@ done
 
 echo -e "------------\n------------\n------------\nBAD:\n"
 
-path_g="elf/bad"
+
+path_g="ex_elf/bad_files/"
 
 good=( $(ls -1 $path_g) )
 

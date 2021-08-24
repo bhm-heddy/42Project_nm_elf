@@ -23,7 +23,7 @@
 # define BIG_E		0
 # define LITTLE_E	1
 
-# define GF_SIZE	12
+# define GF_SIZE	13
 # define LF_SIZE	20
 
 int g_my_errno;
@@ -103,8 +103,10 @@ void		create_lst_symbol(t_symbol **begin, t_symbol *elem);
 void		clean_lst_symbol(t_symbol **begin);
 
 
+int		error_file_format(char *name_file);
 int		error_no_symbol(char *name_file);
 int		error_corrupted_file(char *name_file);
+int		error_endian_file(char *name_file);
 int		check_offset(void *ptr, void *end);
 
 

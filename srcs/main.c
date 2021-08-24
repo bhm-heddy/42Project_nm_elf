@@ -40,6 +40,13 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
+uint8_t		check_endianess_cpu(void)
+{
+	uint8_t	i = 1;
+	char *c = (char *)&i;
+	return ((int)*c);
+}
+
 void	*init_nm(char *path, struct stat *buf)
 {
 	void	*ptr;
@@ -92,8 +99,7 @@ int		is_not_elf(Elf64_Ehdr *elf, char *name_file)
 		elf->e_ident[EI_MAG2] != ELFMAG2 ||
 		elf->e_ident[EI_MAG3] != ELFMAG3)
 	{
-		fprintf(stderr, "%s: %s: File format not recognized\n", NAME, name_file);
-		return (ERROR);
+		return (error_file_format(name_file));
 	}
 	return (SUCCESS);
 }
@@ -105,7 +111,7 @@ void	print_symlink(t_elfH *e, t_symbol *lst, char (*pt[])(t_elfH *e, t_symbol *s
 	while (lst)
 	{
 		flag = get_flag(e, *lst, pt);
-		if (lst->value && flag != 'U' && flag != 'W' && flag != 'w')
+		if (lst->value && flag != 'U')
 			printf("%0*lx %c %s\n", field_value, lst->value, flag, lst->name);
 		else
 			printf("%*c %c %s\n", field_value, ' ', flag, lst->name);
@@ -117,6 +123,11 @@ int8_t	init_elf(t_elfH *elf, char *name_file)
 {
 	if (check_offset(elf->file, elf->end))
 		return (error_corrupted_file(name_file));
+	if (((char *)elf->file)[EI_DATA] ==  ELFDATANONE)
+		return (error_corrupted_file(name_file));
+	if ((((char *)elf->file)[EI_DATA] == ELFDATA2LSB && !check_endianess_cpu())
+			|| (((char *)elf->file)[EI_DATA] != ELFDATA2LSB && check_endianess_cpu()))
+		return (error_endian_file(name_file));
 	if (is_xbit(elf) == 32)
 	{
 		elf->e32.ehdr = elf->file;
@@ -135,10 +146,6 @@ int8_t	init_elf(t_elfH *elf, char *name_file)
 	}
 	if (elf->sh_index == ERROR)
 		return (error_no_symbol(name_file));
-	if (((char *)elf->file)[EI_DATA] == ELFDATA2LSB)
-		elf->endianess = LITTLE_E;
-	else
-		elf->endianess = BIG_E;
 	check_file_type(elf->file, name_file); //quel type ne faut il pas gerer ? 
 	return (SUCCESS);
 }

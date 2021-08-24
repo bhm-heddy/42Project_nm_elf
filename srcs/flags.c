@@ -5,16 +5,14 @@
 //		debug(&e->e64, sym);
 //		debug2(&e->e64, sym);
 
-/*
- * void	debug(t_elf64 *e, t_symbol *sym)
- * {
- *     printf("[%s] \n", sym->name);
- *     printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
- *             e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
- *     exit(1);
- * }
- *
- */
+ void	debug(t_elf64 *e, t_symbol *sym)
+ {
+	 printf("[%s] \n", sym->name);
+	 printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
+			 e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
+	 exit(1);
+ }
+
 
  /*void	debug2(t_elf64 *e, t_symbol *sym)
  *{
@@ -63,6 +61,7 @@ static t_flags		globalflags[] = {
   { STT_OBJECT, SHT_NOBITS, 3, 'B' },
   { STT_FUNC, SHT_NULL, 0, 'U' },
   { STT_FUNC, SHT_PROGBITS, 6, 'T' },
+  { STT_TLS, SHT_NOBITS, 1027, 'B' },
   { STT_LOOS, SHT_PROGBITS, 6, 'i' }
 };
 
@@ -107,7 +106,7 @@ char	global_flag64(t_elfH *e, t_symbol *sym)
 {
     Elf64_Shdr *sh = e->e64.shdr;
 
-//	if (strcmp(sym->name, "free") == 0)
+//	if (strcmp(sym->name, "__bss_start") == 0)
 //		debug(&e->e64, sym);
 
 	for (int i = 0; i < GF_SIZE; i++)
