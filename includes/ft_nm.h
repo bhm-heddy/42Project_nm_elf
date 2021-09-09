@@ -9,7 +9,7 @@
 
 #include <string.h>// debug strcmp
 
-# define NAME		"my_nm"
+# define NAME		"ft_nm"
 
 # define SUCCESS	0
 # define FAIL		1

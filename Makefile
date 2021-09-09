@@ -1,5 +1,5 @@
-NAME = my_nm
-NAMEDB = my_nm_db
+NAME = ft_nm
+NAMEDB = ft_nm_db
 
 # Reset
 NC=\033[0m
