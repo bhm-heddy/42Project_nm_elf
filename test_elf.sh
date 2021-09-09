@@ -12,7 +12,7 @@ do
 		if [ $? -eq 0 ]; then
 			echo "elf ok !"
 			nm $path_g/$elem > a
-			./my_nm $path_g/$elem > b
+			./ft_nm $path_g/$elem > b
 			diff -q a b
 			if [ $? -eq 1 ]; then
 				echo "Error : $path_g/$elem !!!!!!!!!!!!!!!!!!!!!!!"
@@ -38,7 +38,7 @@ do
 		if [ $? -eq 0 ]; then
 			echo "elf ok !"
 			nm $path_g/$elem > a
-			./my_nm $path_g/$elem > b
+			./ft_nm $path_g/$elem > b
 			diff -q a b
 			if [ $? -eq 1 ]; then
 				echo "Error : $path_g/$elem !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"

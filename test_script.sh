@@ -12,11 +12,11 @@ do
 		readelf -h $elem/$bin >&- 2>&-
 		if [ $? -eq 0 ]; then
 			nm $elem/$bin > a
-			./my_nm $elem/$bin > b
-			diff -q a b 
+			./ft_nm $elem/$bin > b
+			diff -q a b
 			if [ $? -eq 1 ]; then
 				echo "Error : $elem/$bin"
-				exit 1
+#				exit 1
 			fi
 		echo Ok!
 		fi

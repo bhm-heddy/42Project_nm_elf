@@ -11,7 +11,7 @@ do
 		if [ $? -eq 0 ]; then
 			echo "elf ok !"
 			nm $elem > a
-			./my_nm $elem > b
+			./ft_nm $elem > b
 			diff -q a b
 			if [ $? -eq 1 ]; then
 				echo "Error : $elem !!!!!!!!!!!!!!!!!!!!!!!"
