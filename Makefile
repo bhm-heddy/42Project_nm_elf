@@ -22,7 +22,6 @@ SRC_FILE += elfx64.c
 SRC_FILE += sym_list.c
 SRC_FILE += flags.c
 SRC_FILE += errors.c
-SRC_FILE += dev.c
 
 ## INCLUDES ##
 

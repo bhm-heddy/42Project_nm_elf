@@ -1,31 +1,5 @@
 #include "ft_nm.h"
 
-
-//	if (strcmp(sym->name, ".str") == 0)
-//		debug(&e->e64, sym);
-//		debug2(&e->e64, sym);
-
- void	debug(t_elf64 *e, t_symbol *sym)
- {
-	 printf("[%s] \n", sym->name);
-	 printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
-			 e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
-	 exit(1);
- }
-
-
- /*void	debug2(t_elf64 *e, t_symbol *sym)
- *{
- *    if (sym->type == 1 && e->shdr[sym->shndx].sh_type == 1 && e->shdr[sym->shndx].sh_flags == 2)
- *    {
- *        printf("----------------------------\n");
- *        printf("\t 1312 [%s]\n", sym->name);
- *        printf("----------------------------\n");
- *    }
- *}
- */
-
-
 static t_flags		localflags[] = {
   { STT_NOTYPE, SHT_PROGBITS, 0, 'n' },
   { STT_NOTYPE, SHT_INIT_ARRAY, 3, 'd' },
@@ -106,9 +80,6 @@ char	global_flag64(t_elfH *e, t_symbol *sym)
 {
     Elf64_Shdr *sh = e->e64.shdr;
 
-//	if (strcmp(sym->name, "__bss_start") == 0)
-//		debug(&e->e64, sym);
-
 	for (int i = 0; i < GF_SIZE; i++)
 	{
 		if (sym->type == globalflags[i].stt)
@@ -148,7 +119,6 @@ char	get_flag(t_elfH *e, t_symbol sym, char (*pt[])(t_elfH *e, t_symbol *sym))
     uint8_t		weak = sym.bind == STB_WEAK ? 1 : 0;
     uint8_t		undefined = sym.shndx == SHN_UNDEF ? 1 : 0;
     uint8_t		local = sym.bind == STB_LOCAL ? 1 : 0;
-
 
 	if (!local)
 		if ((flag = c_flag(&sym)) != NO_TYPE)

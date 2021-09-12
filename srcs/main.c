@@ -119,6 +119,14 @@ void	print_symlink(t_elfH *e, t_symbol *lst, char (*pt[])(t_elfH *e, t_symbol *s
 	}
 }
 
+uint8_t	is_xbit(t_elfH *elf)
+{
+	if (((char *)elf->file)[EI_CLASS] == ELFCLASS32)
+		return ((elf->xbit = 32));
+	else
+		return ((elf->xbit = 64));
+}
+
 int8_t	init_elf(t_elfH *elf, char *name_file)
 {
 	if (check_offset(elf->file, elf->end))

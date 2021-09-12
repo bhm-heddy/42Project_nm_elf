@@ -56,10 +56,31 @@ void	print_section(t_elfH *e)
 
 
 
-uint8_t	is_xbit(t_elfH *elf)
-{
-	if (((char *)elf->file)[EI_CLASS] == ELFCLASS32)
-		return ((elf->xbit = 32));
-	else
-		return ((elf->xbit = 64));
-}
+
+
+//	if (strcmp(sym->name, ".str") == 0)
+//		debug(&e->e64, sym);
+//		debug2(&e->e64, sym);
+
+ /*void	debug2(t_elf64 *e, t_symbol *sym)
+ *{
+ *    if (sym->type == 1 && e->shdr[sym->shndx].sh_type == 1 && e->shdr[sym->shndx].sh_flags == 2)
+ *    {
+ *        printf("----------------------------\n");
+ *        printf("\t 1312 [%s]\n", sym->name);
+ *        printf("----------------------------\n");
+ *    }
+ *}
+ */
+
+
+//	if (strcmp(sym->name, "__bss_start") == 0)
+//		debug(&e->e64, sym);
+
+ void	debug(t_elf64 *e, t_symbol *sym)
+ {
+	 printf("[%s] \n", sym->name);
+	 printf("type  = [%d]\nsh-type = [%d]\n sh_flags = [%lu]\n", sym->type,
+			 e->shdr[sym->shndx].sh_type, e->shdr[sym->shndx].sh_flags);
+	 exit(1);
+ }
