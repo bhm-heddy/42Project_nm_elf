@@ -1,6 +1,9 @@
-# Project
-ft_nm_db
+# Binary
 ft_nm
+ft_nm_db
+
+# Ctags file
+tags
 
 # Prerequisites
 *.d
@@ -54,6 +57,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-# Tags file
-tags
