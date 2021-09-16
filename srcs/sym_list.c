@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "ft_nm.h"
 
 static uint8_t		is_lower(char c)
@@ -21,6 +22,7 @@ static uint8_t		is_not_alphanum(char *s)
 	}
 	return (1);
 }
+
 static uint8_t		is_sort(char *s1, char *s2, uint64_t v1, uint64_t v2)
 {
 	char 	c1;
@@ -81,18 +83,22 @@ static t_symbol	*insert_sort_list(t_symbol *lst, t_symbol *new)
 	return (head);
 }
 
-void		create_lst_symbol(t_symbol **begin, t_symbol *elem)
+int8_t		create_lst_symbol(t_symbol **begin, t_symbol *elem)
 {
 	t_symbol *new;
 
 	if (!(new = malloc(sizeof(t_symbol))))
-		exit(EXIT_FAILURE); //gestion error
+	{
+		fprintf(stderr, "%s: Critical error : malloc failed\n", NAME);
+		return (E_CRITICAL);
+	}
 	*new = *elem;
 	new->next = NULL;
 	if (*begin)
 		*begin = insert_sort_list(*begin, new);
 	if (!*begin)
 		*begin = new;
+	return (SUCCESS);
 }
 
 void		clean_lst_symbol(t_symbol **begin)

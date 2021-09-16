@@ -20,13 +20,14 @@ t_symbol	*find_symlink64(t_elfH *elf, t_elf64 *e64)
 			sym.name = sym_strtable + e64->sym[i].st_name;
 			sym.shndx = e64->sym[i].st_shndx;
 			sym.value = e64->sym[i].st_value;
-			create_lst_symbol(&lst, &sym);
+			if (create_lst_symbol(&lst, &sym) != SUCCESS)
+				return (NULL);
 		 }
 	 }
 	 return (lst);
 }
 
-int32_t	find_symtab64(char *file, t_elf64 *e)
+int32_t		find_symtab64(char *file, t_elf64 *e)
 {
 	for (uint16_t i = 0; i < e->ehdr->e_shnum; i++)
 	{
@@ -36,8 +37,5 @@ int32_t	find_symtab64(char *file, t_elf64 *e)
 			return (i);
 		}
 	}
-	return (ERROR); //-1
-	/*
-	 *ajout section dynsym pour option -D
-	 */
+	return (ERROR);
 }

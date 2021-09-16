@@ -21,15 +21,12 @@ int		error_corrupted_file(char *name_file)
 	return (ERROR);
 }
 
-
 int		error_endian_file(char *name_file)
 {
 	dprintf(2,"%s: %s: Different endian is not supported\n", NAME, name_file);
 	g_my_errno = 1;
 	return (ERROR);
 }
-
-
 
 int		error_no_symbol(char *name_file)
 {

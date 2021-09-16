@@ -12,6 +12,7 @@
 # define TRUE		1
 # define FALSE		0
 # define ERROR		-1
+# define E_CRITICAL -2
 
 # define NO_TYPE	'?'
 
@@ -84,7 +85,7 @@ char		local_flag64(t_elfH *e, t_symbol *sym);
 uint8_t		is_xbit(t_elfH *elf);
 char		get_flag(t_elfH *e, t_symbol sym, char (*pt[])(t_elfH *e, t_symbol *sym));
 
-void		create_lst_symbol(t_symbol **begin, t_symbol *elem);
+int8_t		create_lst_symbol(t_symbol **begin, t_symbol *elem);
 void		clean_lst_symbol(t_symbol **begin);
 
 int			error_file_format(char *name_file);

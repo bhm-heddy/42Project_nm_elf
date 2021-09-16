@@ -20,7 +20,8 @@ t_symbol	*find_symlink32(t_elfH *elf, t_elf32 *e32)
 			sym.name = sym_strtable + e32->sym[i].st_name;
 			sym.shndx = e32->sym[i].st_shndx;
 			sym.value = e32->sym[i].st_value;
-			create_lst_symbol(&lst, &sym);
+			if (create_lst_symbol(&lst, &sym) != SUCCESS)
+				return (NULL);
 		 }
 	 }
 	 return (lst);
@@ -36,8 +37,5 @@ int32_t		find_symtab32(char *file, t_elf32 *e)
 			return (i);
 		}
 	}
-	return (ERROR);// -1 
-	/*
-	 *ajout section dynsym pour option -D
-	 */
+	return (ERROR);
 }

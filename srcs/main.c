@@ -1,34 +1,9 @@
-#include <sys/mman.h> //mmap/munmap
-#include <sys/types.h> //fstat / open
-#include <sys/stat.h> //fstat / open
-#include <fcntl.h> //fstat
-
-#include <stdlib.h> //exit
-
-#include <stdio.h> //printf
-
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
 #include "ft_nm.h"
-
-void	debug_print_type(Elf64_Half type)
-{
-	printf("type value = [%d] ", type);
-	if (type == ET_NONE)
-		printf("type = [ET_NONE]\n");
-	else if (type == ET_CORE)
-		printf("type = [ET_CORE]\n");
-	else if (type == ET_NUM)
-		printf("type = [ET_NUM]\n");
-	else if (type == ET_LOOS )
-		printf("type = [ET_LOOS]\n");
-	else if (type == ET_HIOS)
-		printf("type = [ET_HIOS]\n");
-	else if (type == ET_LOPROC )
-		printf("type = [ET_LOPROC]\n");
-	else if (type == ET_HIPROC)
-		printf("type = [ET_HIPROC]\n");
-	else
-		printf("dont understand type\n");
-}
 
 size_t	ft_strlen(const char *s)
 {
@@ -88,7 +63,6 @@ void	check_file_type(Elf64_Ehdr *elf, char *name_file)
 		 	elf->e_type != ET_DYN)
 		{
 			fprintf(stderr, "nm: %s: File format not recognized\n", name_file);
-			debug_print_type(elf->e_type);
 		}
 }
 
@@ -154,7 +128,7 @@ int8_t	init_elf(t_elfH *elf, char *name_file)
 	}
 	if (elf->sh_index == ERROR)
 		return (error_no_symbol(name_file));
-	check_file_type(elf->file, name_file); //quel type ne faut il pas gerer ? 
+	check_file_type(elf->file, name_file);
 	return (SUCCESS);
 }
 
@@ -172,17 +146,19 @@ int		ft_nm(char *name_file)
 	if (is_not_elf(elf.file, name_file))
 		return (ERROR);
 	if (init_elf(&elf, name_file) == ERROR)
-	   return (g_my_errno);// no sym == ret = 0
+	   return (g_my_errno);
 	if (elf.xbit == 64)
 	{
-		 lst = find_symlink64(&elf, &elf.e64); //go free ici
+		 lst = find_symlink64(&elf, &elf.e64);
+		 if (!lst)
+			return (E_CRITICAL);
 		 pt[0] = local_flag64;
 		 pt[1] = global_flag64;
 		 field_value = 16;
 	}
 	else
 	 {
-		 lst = find_symlink32(&elf, &elf.e32); //go free ici
+		 lst = find_symlink32(&elf, &elf.e32);
 		 pt[0] = local_flag32;
 		 pt[1] = global_flag32;
 		 field_value = 8;
@@ -192,26 +168,30 @@ int		ft_nm(char *name_file)
 	if (munmap(elf.file, buf.st_size) < 0)
 	{
 		fprintf(stderr, "%s: Critical error : munmap failed\n", NAME);
-		return (1);// critical error -> doit tout stopper
+		return (E_CRITICAL);
 	}
 	 return (SUCCESS);
 }
 
 int		main(int ac, char **av)
 {
-	int		ret;
+	int		final_ret = 0;
+	int8_t	tmp_ret;
 
 	if (ac == 1)
-		ret = ft_nm("a.out");
+		final_ret = ft_nm("a.out");
 	else if (ac == 2)
-		ret = ft_nm(av[1]);
+		final_ret = ft_nm(av[1]);
 	else
 		for (uint8_t i = 1; i < ac; i++)
 		{
 			printf("\n%s: %s:\n", NAME, av[i]);
-			ret += ft_nm(av[i]);
+			tmp_ret = ft_nm(av[i]);
+			if (tmp_ret == E_CRITICAL)
+				return (FAIL);
+			final_ret += tmp_ret;
 		}
-	if (ret)
+	if (final_ret)
 		return (FAIL);
 	return (SUCCESS);
 }

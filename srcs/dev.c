@@ -54,6 +54,26 @@ void	print_section(t_elfH *e)
 	}
 }
 
+void	debug_print_type(Elf64_Half type)
+{
+	printf("type value = [%d] ", type);
+	if (type == ET_NONE)
+		printf("type = [ET_NONE]\n");
+	else if (type == ET_CORE)
+		printf("type = [ET_CORE]\n");
+	else if (type == ET_NUM)
+		printf("type = [ET_NUM]\n");
+	else if (type == ET_LOOS )
+		printf("type = [ET_LOOS]\n");
+	else if (type == ET_HIOS)
+		printf("type = [ET_HIOS]\n");
+	else if (type == ET_LOPROC )
+		printf("type = [ET_LOPROC]\n");
+	else if (type == ET_HIPROC)
+		printf("type = [ET_HIPROC]\n");
+	else
+		printf("dont understand type\n");
+}
 
 
 

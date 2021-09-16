@@ -39,7 +39,6 @@ static t_flags		globalflags[] = {
   { STT_LOOS, SHT_PROGBITS, 6, 'i' }
 };
 
-
 char	c_flag(t_symbol *sym)
 {
 	if (sym->type == STT_OBJECT &&
